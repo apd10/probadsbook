@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ideas behind many probabilistic data structures &#8212; Probabilistic Algorithms and Data Structures</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Randomized Routing" href="randomized_routing.html" />
+    <link rel="prev" title="Contents" href="../content.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Probabilistic Algorithms and Data Structures</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Probabilistic Algorithms and Data Structures
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../content.html">
+   Contents
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     <strong>
+      Ideas behind many probabilistic data structures
+     </strong>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="randomized_routing.html">
+     <strong>
+      Randomized Routing
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/intro_hashing.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/intro_hashing.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/intro_hashing.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem Statement
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-a-solution">
+   Building a Solution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notations">
+     Notations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-do-existing-datastructures-fare">
+     How do existing datastructures fare
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#idea-1-address-space-reduction-hash-maps">
+     <strong>
+      Idea 1 : Address space reduction : hash maps
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#idea-2-sacrificing-accuracy-to-save-memory">
+   <strong>
+    Idea 2: Sacrificing Accuracy to save memory.
+   </strong>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#error-due-to-collisions">
+     Error due to collisions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#idea-3-repeat-and-combine-to-reduce-error">
+   Idea 3 :
+   <strong>
+    Repeat and Combine
+   </strong>
+   to reduce error
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bloom-filters-count-sketches-count-min-sketches">
+   Bloom filters, Count Sketches, Count Min sketches
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ideas-behind-many-probabilistic-data-structures">
+<h1><strong>Ideas behind many probabilistic data structures</strong><a class="headerlink" href="#ideas-behind-many-probabilistic-data-structures" title="Permalink to this headline">¶</a></h1>
+<p>In this chapter, we would like to discover the fundamental ideas behind a lot of probabilistic datastructures such as bloom filters, count sketches and so on. This chapter will use the problem of set membership as a running problem and we shall try to see where the ideas stem from. In the subsequent chapters we will go in detail on individual topics motivated here.</p>
+<p>We want the readers to carefully understand the importance of following ideas in probabilistic data structures</p>
+<ul class="simple">
+<li><p><em>Sacrificing Correctness in an controlled way can lead to phenomenal improvements in performance giving reasonable solutions to problems that cannot have practical deterministic solutions.</em></p></li>
+<li><p>Apart from this, we will also motivate why hashing comes in the picture and why it warrants a detailed discussion</p></li>
+<li><p>Median of Means Trick : How simple insights from probability theory are utilized as a key step to making these algorithms really sucessful.</p></li>
+</ul>
+<p>So lets begin by taking a running example</p>
+<div class="section" id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">¶</a></h2>
+<p>The general problem we want to solve is of keeping some statistic for each of potentially large objects. The objects can be something like student class object with many string attributes like name, city, contact, educational institutions, performance scores etc. It can also be large webpages on internet or simply the url address of a webpage. Basically, the object is any data required for identifying a required entity. statistic, on the other hand, is a value you want to store against each object. For example, in case or url object, you could want to store the number of hits each url got. Or in case you want to maintain a set of malicious urls, the statistic can be as simple as maintaining a boolean value.</p>
+<p>As a running example, we will try and look at a set of malicious urls. The idea is to have a datastructure storing these urls. We can add new urls to this set. At anytime, we can query this datastructure to check if a url is malicious. Ofcourse, the number of queries can be very large, so we have to keep query time into consideration. Also, as webbrowser needs to be light, we have to keep memory used into check as well. To set realistic limits, lets say</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Design a datastructure to answer a query : <em>is a url malicious?</em>.</p></li>
+<li><p>You have <span class="math notranslate nohighlight">\(10^6\)</span> queries of average length 50 chars each.</p></li>
+<li><p>QueryTime : O(1)</p></li>
+<li><p>Memory : 4MB</p></li>
+</ul>
+</div></blockquote>
+<p>Lets try to understand the requirements of the problem.</p>
+<ul class="simple">
+<li><p>If we are to store all the urls in any manner, it would take  <span class="math notranslate nohighlight">\(10^6 \times 50 \times 8 \)</span> bits i.e. 50 MB memory. So storing the entire data is out of question.</p></li>
+<li><p>Nothing is mentioned on preprocessing time. So maybe we can do a lot of intelligent preprocessing (even though this is true for this particular problem statement. This is not generally true. These datastructures generally also have an <em>update</em> interface which means datastructure is built out of series of updates and updateTime should also be O(1)).</p></li>
+<li><p>The query time has to be O(1) so even the best datastructure to store a set , i.e. balanced binary tree  O(log(n)) is too time consuming.</p></li>
+</ul>
+<p>So just looking at this problem statement from the view of traditional algorithms makes it clear that this problem <strong>just cannot be solved</strong>.</p>
+<p>Lets try building a <strong>reasonable</strong> solution!</p>
+</div>
+<div class="section" id="building-a-solution">
+<h2>Building a Solution<a class="headerlink" href="#building-a-solution" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="notations">
+<h3>Notations<a class="headerlink" href="#notations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n\)</span> : number of urls</p></li>
+<li><p><span class="math notranslate nohighlight">\(D\)</span> : size of each url</p></li>
+<li><p><span class="math notranslate nohighlight">\(s\)</span> : size of statistic (1 bit for boolean, 32bits for int etc)</p></li>
+<li><p><span class="math notranslate nohighlight">\(N\)</span> : range of the object if mapped to integers</p></li>
+</ul>
+<p>Each object can be viewed as a binary string which, in turn, can be interpreted as an integer. These can get very large depending on an object. For example the string of len 50 has 50*8 bits. i.e. the integer corresponding to it will be around <span class="math notranslate nohighlight">\(2^{400} \sim 10^{120}\)</span>. So in our problem you can imagine n objects being drawn from a huge range <span class="math notranslate nohighlight">\([0,N]\)</span></p>
+<p>You can also see that N and D are actually related. D ~ log(N) as D is exactly the number of bits required to store the object which is integer of order of N</p>
+</div>
+<div class="section" id="how-do-existing-datastructures-fare">
+<h3>How do existing datastructures fare<a class="headerlink" href="#how-do-existing-datastructures-fare" title="Permalink to this headline">¶</a></h3>
+<p>Lets just have a look at different datastrucutres, their memory usage and query times.</p>
+<ul class="simple">
+<li><p>Arrays :</p>
+<ul>
+<li><p>query time O(1)</p></li>
+<li><p>Memory O(Ns)</p></li>
+</ul>
+</li>
+<li><p>Linked List:</p>
+<ul>
+<li><p>query time  O(n)</p></li>
+<li><p>Memory O(n(D+s))</p></li>
+</ul>
+</li>
+<li><p>Balanced Binary Tree:</p>
+<ul>
+<li><p>query time O(log(n))</p></li>
+<li><p>Memory O(n(D+s))</p></li>
+</ul>
+</li>
+<li><p>Aim:</p>
+<ul>
+<li><p>query time O(1)</p></li>
+<li><p>Memory O(ns)</p></li>
+</ul>
+</li>
+</ul>
+<p>It seems that Arrays, with their indexing magic, are able to give us O(1) query time. However the amount of Memory they need is just ridiculous. On the surface, it seems like we are not storing the `data’. However, it is worse than storing data which is O(logN). It is like having a one-hot encoding of an integer instead of binary. None the less, it begs a querstion : if we are interested in only n cells of this array, is there a way to only keep n or O(n) in contiguous locations and make this work? Can we achieve O(1) query time?</p>
+</div>
+<div class="section" id="idea-1-address-space-reduction-hash-maps">
+<h3><strong>Idea 1 : Address space reduction : hash maps</strong><a class="headerlink" href="#idea-1-address-space-reduction-hash-maps" title="Permalink to this headline">¶</a></h3>
+<p>We want Array but only O(n) sized. Clearly the naive indexing is at fault. If we use the binary representation of the object, it is bound to explode in memory. We need a clever indexing. Specifically we want a function that maps the object to a smaller range of O(n), say m. So lets consider a function H</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(H: [0,N] \rightarrow [0,m] \)</span></p>
+</div></blockquote>
+<p>In literature, these are called as hashing functions.</p>
+<p>Lets explore this idea</p>
+<ul class="simple">
+<li><p>If we are able to match each of the url in the set to a <strong>unique</strong> integer in [0,m], then we can get correct result without having to store the data itself. As we will see later, for a fixed set, we can come up with such a mapping. It is called <em>perfect hashing</em>. However, it is impossible to have such a function without knowing the data before hand. In fact, pigeon hole principal clearly dictates that for any fixed function, there exists data which will not lead to unique mappings.</p></li>
+<li><p>So there can be <em>collisions</em> of objects at a single mapping into the array. How do we resolve these collisions? There are many strategies used in the hash map datastructures to resolve these collisions like chaining / probing. However, all these datastructure force you to store the data for actual comparison before. Lets say for now we use chaining. It has a linked list stored at each location in the array of size m. So with this idea, we are still stuck with storing entire data.</p></li>
+</ul>
+<p>A hash map with chaining looks like:</p>
+<p><img alt="taken from https://i.stack.imgur.com/BrWiZ.png " src="https://i.stack.imgur.com/BrWiZ.png" /></p>
+<ul>
+<li><p>Query time for a particular url u depends on the length of the linked list at the location H(q). We would want that this list is as small as possible. We also note that the length of this list depends on the hash function we choose.</p></li>
+<li><p>How do we choose a hash function?</p>
+<ul>
+<li><p>We can see that any fixed hash function can have an adverserial data which can cause all the data to land at a single point. So the worst case queryTime always remains O(n)</p></li>
+<li><p>How can we break the adversary? We randomly select function H from a set of hash functions (also called Family of Hash Functions) independent of the data. This is one of the classic ideas used to deal with adversarial data. This is also the place where randomness crawls into the algorithm.</p></li>
+<li><p>What kind of family (HF) would do? We want the collisions to be less. Mathematically, we can say that we want collision probability to be low. In the best case, the hash function is completely random. i.e. Hash family is set of all mappings from <span class="math notranslate nohighlight">\([0,N] \rightarrow [0, n]\)</span>. So it independently maps each of the object. Then collision probability is
+$<span class="math notranslate nohighlight">\(P_{H \in HF }(collision(o1, o2)) = 1/m \)</span>$</p></li>
+<li><p>Storing the hash function should not be a significant overhead. If we are to store a hash function from a set of all mappings, it would require us to store the entire mapping for each element in <span class="math notranslate nohighlight">\([0,N]\)</span> which is O(N). So this family won’t do. There has been research into hash families that still achieve something reasonable, though weaker, in terms of probabilites and require O(1) space to store. We defer detailed discussion on these families for later. For now, we just want you to know that families called universal family exist where</p>
+<ul>
+<li><p>Memory is O(1)</p></li>
+<li><div class="math notranslate nohighlight">
+\[P_{H \in HF }(collision(o1, o2)) \leq 1/m \]</div>
+<p>Note that the completely random hash family is much stronger than this family. For example, in random family <span class="math notranslate nohighlight">\(P_{H \in HF }(collision(o1, o2, o3, .. ok)) \leq 1/m^{k-1} \)</span>. However universal family does not provide such guarantee.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Choosing H from family of hash functions" src="https://drive.google.com/uc?export=view&amp;id=15wq7An6Pg5QWhEkPTAKITNksqdVtCHg_" /></p>
+<ul class="simple">
+<li><p>Query Time warrants more discussion. We can see that the randomization trick does not solve the problem of worst case time complexity. Is that the end of it? We believe, we have setup the hash functions so that the query time <em>practically</em> is very good. Lets try to capture this intuition. The query time depends on the length of the linked lists. i.e. on the number of elements mapped to the same location where query q lands
+The estimator of the length can be written as
+$<span class="math notranslate nohighlight">\(Length(q) = \Sigma_{i \in n} I(H(q) == H(o_i))\)</span>$</p></li>
+</ul>
+<p>where I is the indicator function.
+If we look at the expectation and use universal hash family
+$<span class="math notranslate nohighlight">\(E(Length(q)) = E(\Sigma_{i \in n} I(H(q) == H(o_i)))\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[E(Length(q)) = \Sigma_{i \in n} P(Collision(q, o_i))\]</div>
+<div class="math notranslate nohighlight">
+\[E(Length(q)) = \frac{n}{m}\]</div>
+<p>we choose m = O(n) so we can see that the
+$<span class="math notranslate nohighlight">\(E(Length(q)) = O(1) \implies E(queryTime) = O(1)\)</span>$</p>
+<p>In expectation we see that query time is actually O(1). So it validates that we indeed have achieved something. Also, it points out that more tools are needed to analyse these algorithms now that we have introduced randomness. We should also note that Expectation may not be the correct metric. The actual thing we want to have is that the probability of length of linked list being large should be bounded by a very small quantity. This brings us into discussion of tail bounds on estimator values. A good resource on tail bounds is <a class="reference external" href="https://www.cs.rice.edu/~as143/COMP480_580_Spring20/slides/TailBounds.pdf">tail bounds by Luay Nakhleh</a></p>
+<p>What have we achieved</p>
+<ul class="simple">
+<li><p>Memory O(n(D+s))</p></li>
+<li><p>Querytime E(queryTime) = O(1). For now lets assume this is good enough.</p></li>
+</ul>
+<p>So we have made significant improvement in querytime.</p>
+</div>
+</div>
+<div class="section" id="idea-2-sacrificing-accuracy-to-save-memory">
+<h2><strong>Idea 2: Sacrificing Accuracy to save memory.</strong><a class="headerlink" href="#idea-2-sacrificing-accuracy-to-save-memory" title="Permalink to this headline">¶</a></h2>
+<p>We saw that just storing the data will lead us to use 50MB of memory. However, because of the unavoidable collisions, we have to keep the data if we want to always provide the correct answer. But, we have also made sure that our choice of hash function reasonably distributes the elements across the array. If we could ensure perfect hashing, we would not need to store the elements and the memory would come down to O(ms). If we remove storing the data, we would not be able to distinguish between the elements mapped to single location. There will be error but is it significant? Can we accept that error? This is one of the key ideas behind randomized algorithms. As we will see, this out of the box thinking lead us to achieve something phenomenal</p>
+<p><img alt="" src="https://drive.google.com/uc?export=view&amp;id=1z-_Y_0tPVBQKnFn2WjoZyNK5Q15o9Y2D" /></p>
+<p>So in this problem, we scrap all the data stored in linked list. Instead of it, we only store a single bit to denote if any element from the set mapped to this location. Assuming completely random functions, lets try to see how much error can this really lead do.</p>
+<div class="section" id="error-due-to-collisions">
+<h3>Error due to collisions<a class="headerlink" href="#error-due-to-collisions" title="Permalink to this headline">¶</a></h3>
+<p>Firstly, we would like to note that the datastructure can only report false positives (An element not inserted is reported as a member). It would never report false negatives. (An element inserted is always reported as member. So let us see what is the probability that a query leads to false positive.</p>
+<p>Let q be a non-member of the set.</p>
+<div class="math notranslate nohighlight">
+\[P(Error) = P(H(q) == 1 |  \textrm{q is not inserted}) \]</div>
+<div class="math notranslate nohighlight">
+\[ = P(\textrm{at least 1 insertion lands at } H(q))\]</div>
+<div class="math notranslate nohighlight">
+\[ = 1  - P(\textrm{no insertion at }H(q))\]</div>
+<div class="math notranslate nohighlight">
+\[= 1 - \Pi_i P(H(e_i) != H(q))\]</div>
+<div class="math notranslate nohighlight">
+\[1 - \Pi_i (1 - P(H(e_i) == H(q)))\]</div>
+<div class="math notranslate nohighlight">
+\[1 - \Pi_i (1 - \frac{1}{m})\]</div>
+<div class="math notranslate nohighlight">
+\[1 - (1 - \frac{1}{m})^n\]</div>
+<div class="math notranslate nohighlight">
+\[\leq 1 - e^{-\frac{n}{m}} \quad  \textrm{ using }( 1 - 1/x \leq e^{-1/x})\]</div>
+<p>We see how false positive rates for some values of m in the table below.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Memory</p></th>
+<th class="text-align:center head"><p>Error</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>hashmap</p></td>
+<td><p>50MB</p></td>
+<td class="text-align:center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>bitarray m=5n</p></td>
+<td><p>0.625MB</p></td>
+<td class="text-align:center"><p>0.18</p></td>
+</tr>
+<tr class="row-even"><td><p>bitarray m=10n</p></td>
+<td><p>1.25MB</p></td>
+<td class="text-align:center"><p>0.09</p></td>
+</tr>
+<tr class="row-odd"><td><p>bitarray m=20n</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.05</p></td>
+</tr>
+</tbody>
+</table>
+<p>It seems like we have some reasonable solution here for the original problem we started with. If we want to improve the result further, one clear way is to increase the value of m , i.e. increase the memory used. There are a couple of points to note here</p>
+<ul class="simple">
+<li><p>The error is going down sub-linearly with increasing memory.</p></li>
+<li><p>If under the same setup we had to store some integer / float statistic, the memory required (32 / 64 bits instead of 1 bit) would not seem as an impressive improvement. Ofcourse, this does not discredit the algorithm’s general improvement in memory usage.</p></li>
+</ul>
+<p>So, there is a need for a better way of reducing the error than just increasing memory.</p>
+</div>
+</div>
+<div class="section" id="idea-3-repeat-and-combine-to-reduce-error">
+<h2>Idea 3 : <strong>Repeat and Combine</strong> to reduce error<a class="headerlink" href="#idea-3-repeat-and-combine-to-reduce-error" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>Before we move further, lets look at a very basic tool to improve performance in probabilistic processes. Consider an urn with 80 Red balls and 20 white balls (each numbered 1 to 100). Your goal is to report a number of a ball which is red; but you cannot look at the urn or the balls. You have a verifier who can verify the colors corresponding to the number / numbers you ask. However you can only ask the verifier once. What is a good strategy? You can sample a number randomly from 1 to 100 and ask the verifier for the color. You know you can end up with the wrong ball with probability 0.2 . A good way to improve your chances of getting a red ball is to sample more numbers and ask verifier to verify them. If you sample 2 balls, the probability of not having a red ball is reduced to 0.2^2 = 0.04. Similarly, if you sample n times, the probability failure is 0.2^n. As you can see by increasing the processing cost linearly (for sampling and verifying) you can <strong>exponentially</strong> reduce the probability of error. Note what we did was</p>
+<ul class="simple">
+<li><p>We <em>repeated</em> the process of sampling multiple times. It gave us n answers each of which had some probability of failure.</p></li>
+<li><p>We <em>combined</em> the answers (in this case it was simple to just see and pick red ball) to give the best answer.</p></li>
+</ul>
+<p>This repeat and combine technique is prevalent in a lot of algorithms in sketching literature and is used to reduce the error bound exponentially.</p>
+<p>Lets go back to what have we achieved with a single bit map. We create a bit map which a randomly drawn hash function. It gives us the probability of error on any q to be bound by some error <span class="math notranslate nohighlight">\(e\)</span>. You can see that the begin correct/wrong is a random variable that comes out of the random process of building a bit map seeded by a random draw of hash function. So lets try to apply <em>repeat and combine</em> technique here. We choose another independently drawn hash function and that will give us another bit map which also has same error bounds. Now can we combine the results for a query q. For query q we get two values of is_set from two arrays. We know that there can only be false positives. So if any one of them is false, we know that q was never inserted. So we answer (is_set = is_set_1 AND is_set_2).
+$<span class="math notranslate nohighlight">\(P(Error) = P(A1[h_1(q)] \wedge A2[h_2(q)] | q \not \in S)\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[P(Error) = P(A1[h_1(q)] | q \not \in S) P(A2[h_2(q)] | q \not \in S) = P(A1[h_1(q)] | q \not \in S)^2 \]</div>
+<div class="math notranslate nohighlight">
+\[P(Error) = e^2 \]</div>
+<p>For r repetitions, the memory required here would be O(rms). for rm=20n we compare for different values of r and n in the table below:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Memory</p></th>
+<th class="text-align:center head"><p>Error</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>hashmap</p></td>
+<td><p>50MB</p></td>
+<td class="text-align:center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>bitarray m=n r=20</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.0001</p></td>
+</tr>
+<tr class="row-even"><td><p>bitarray m=2n r=10</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.00008</p></td>
+</tr>
+<tr class="row-odd"><td><p>bitarray m=4n r=5</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.0005</p></td>
+</tr>
+<tr class="row-even"><td><p>bitarray m=5n r=4</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p>bitarray m=10n r=2</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.009</p></td>
+</tr>
+<tr class="row-even"><td><p>bitarray m=20n r=1</p></td>
+<td><p>2.5MB</p></td>
+<td class="text-align:center"><p>0.05</p></td>
+</tr>
+</tbody>
+</table>
+<p>As we can see, we achieve the best results at m=2n and r=10 here. We can see two opposing errors here. We can see that the error decreases as both m and r increase. However due to relation mr = constant. increasing one causes other to decrease. This makes an optimum solution for m and r possible.
+The final datastructure : r repetitions of m sized bit arrays which have independently drawn hash functions is very close to how a bloom filter is implemented with some modifications.</p>
+</div>
+<div class="section" id="bloom-filters-count-sketches-count-min-sketches">
+<h2>Bloom filters, Count Sketches, Count Min sketches<a class="headerlink" href="#bloom-filters-count-sketches-count-min-sketches" title="Permalink to this headline">¶</a></h2>
+<p>All the  three datastructures: bloom filters, count sketches and count min sketches, deploy same tools which are discussed below and only differ in the type of statistic stored against each object. The type of statistic also affects the way to combine different repititions. (Note, in bloom filters instead of having repititions as independent memory arrays, we use a single array and use r hash functinos to hash into it. This gives slightly better bounds on error)</p>
+<p>We list the type of statistic and method to combine in the table below</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>DataStructure</p></th>
+<th class="head"><p>Type(statistic)</p></th>
+<th class="text-align:center head"><p>Combination</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bloom filter</p></td>
+<td><p>boolean</p></td>
+<td class="text-align:center"><p>AND</p></td>
+</tr>
+<tr class="row-odd"><td><p>count min sketch</p></td>
+<td><p>+ve integers/float</p></td>
+<td class="text-align:center"><p>MIN</p></td>
+</tr>
+<tr class="row-even"><td><p>count sketch</p></td>
+<td><p>integers/float</p></td>
+<td class="text-align:center"><p>MEDIAN</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="slides">
+<h2>Slides<a class="headerlink" href="#slides" title="Permalink to this headline">¶</a></h2>
+<p>The slides on which this is based are here <a class="reference external" href="https://drive.google.com/file/d/1rtfhEXhxXZwkJV0XkRUD2Msd3_GMhH7w/view?usp=sharing">slides</a></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../content.html" title="previous page">Contents</a>
+    <a class='right-next' id="next-link" href="randomized_routing.html" title="next page"><strong>Randomized Routing</strong></a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Aditya Desai, Anshumali Shrivastava<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
