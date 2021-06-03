@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content with notebooks &#8212; Probabilistic Algorithms and Data Structures</title>
+    <title>Locality Sensitive Hashing (LSH) &#8212; Probabilistic Algorithms and Data Structures</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -55,6 +55,8 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Randomized Routing" href="randomized_routing.html" />
+    <link rel="prev" title="Ideas behind many probabilistic data structures" href="intro_hashing.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -91,17 +93,17 @@
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../content.html">
    Contents
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="intro_hashing.html">
      <strong>
@@ -109,8 +111,8 @@
      </strong>
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lsh.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Locality Sensitive Hashing (LSH)
     </a>
    </li>
@@ -164,7 +166,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/notebooks.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/notebooks/lsh.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -184,7 +186,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/notebooks.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lsh.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -205,7 +207,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/notebooks.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/lsh.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -228,18 +230,18 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#markdown-notebooks">
-   Markdown + notebooks
+  <a class="reference internal nav-link" href="#near-neighbour-search-nn">
+   Near Neighbour Search (NN)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#myst-markdown">
-   MyST markdown
+  <a class="reference internal nav-link" href="#approximate-near-neighbour-search-ann">
+   Approximate Near Neighbour Search (ANN)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-blocks-and-outputs">
-   Code blocks and outputs
+  <a class="reference internal nav-link" href="#lsh-introduction">
+   LSH - Introduction
   </a>
  </li>
 </ul>
@@ -253,78 +255,64 @@
         
               <div>
                 
-  <div class="section" id="content-with-notebooks">
-<h1>Content with notebooks<a class="headerlink" href="#content-with-notebooks" title="Permalink to this headline">¶</a></h1>
-<p>You can also create content with Jupyter Notebooks. This means that you can include
-code blocks and their outputs in your book.</p>
-<div class="section" id="markdown-notebooks">
-<h2>Markdown + notebooks<a class="headerlink" href="#markdown-notebooks" title="Permalink to this headline">¶</a></h2>
-<p>As it is markdown, you can embed images, HTML, etc into your posts!</p>
-<p><img alt="" src="https://myst-parser.readthedocs.io/en/latest/_static/logo.png" /></p>
-<p>You an also <span class="math notranslate nohighlight">\(add_{math}\)</span> and</p>
+  <div class="section" id="locality-sensitive-hashing-lsh">
+<h1>Locality Sensitive Hashing (LSH)<a class="headerlink" href="#locality-sensitive-hashing-lsh" title="Permalink to this headline">¶</a></h1>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>NOTATION</p></th>
+<th class="head"><p>DESCRIPTION</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(d\)</span></p></td>
+<td><p>dimension</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathcal{D}\)</span></p></td>
+<td><p>Distance function</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathcal{S}\)</span></p></td>
+<td><p>Similarity function</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(q\)</span></p></td>
+<td><p>query object</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(q^*\)</span></p></td>
+<td><p>object nearest to query</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
+<td><p>general object</p></td>
+</tr>
+</tbody>
+</table>
+<p>In the previous lectures, we have seen how the problem of efficient exact-search (or related problems like set membership) etc can be solved using hash tables. Also, we saw how memory and computation efficient algorithms can be built if we are ready to sacrifice some accuracy like with bloom filters for set membership problem. However, a lot of practical applications demand for some tolerance in search. For example, while searching a data base of products for a specific product, say “nike shoes model no.831533-001”, a user might trigger various queries with the same intention such as “nike shoes”, “nike running shoes”, “nike shoes latest”, “nike shoes black” etc. The expectation is to recieve a list of products related to the query and not the exact query.</p>
+<p>Abstractly,a relevant problem in information retrieval is that of “near neighbour search” or “finding elements from a set that are similar to a query element”. Generally the notion of nearness (or corresponding similarity) can be specified using distance function, <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, ( or corresponding similarity function, <span class="math notranslate nohighlight">\(\mathcal{S}\)</span>). As a solution to this problem, we want to find the element that is closest (or most similar) to the query element according to the given function (<span class="math notranslate nohighlight">\(\mathcal{D}\)</span> or <span class="math notranslate nohighlight">\(\mathcal{S}\)</span>. We formally define the problem of near neighbour search as follows.</p>
+<div class="section" id="near-neighbour-search-nn">
+<h2>Near Neighbour Search (NN)<a class="headerlink" href="#near-neighbour-search-nn" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>Given a collection of n objects, say <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> and a query object <span class="math notranslate nohighlight">\(q\)</span> and a distance metric <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> ( or similarity metric <span class="math notranslate nohighlight">\(\mathcal{S}\)</span>), the near neighbour problem is to find the element in set <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> that is closest to <span class="math notranslate nohighlight">\(q\)</span> according to <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> (or <span class="math notranslate nohighlight">\(\mathcal{S}\)</span>). Formally,</p>
 <div class="math notranslate nohighlight">
-\[
-math^{blocks}
-\]</div>
-<p>or</p>
+\[ q^* = \textrm{arg} \min_{x \in \mathcal{C}} \mathcal{D}(q, x) \quad \textrm{or} \quad q^* = \textrm{arg} \max_{x \in \mathcal{C}} \mathcal{S}(q, x) \]</div>
+<hr class="docutils" />
+<p><span style="color: red;">todo: does D have to be a metric? Does S have to be a positive semi-definite kernel? </span>
+The similarity function, <span class="math notranslate nohighlight">\(\mathcal{S}(x,y)\)</span> is also sometimes referred to as kernel function denoted by <span class="math notranslate nohighlight">\(k(x,y)\)</span> or <span class="math notranslate nohighlight">\(\phi(x,y)\)</span>. A realted problem is that of finding the K near neighbours(KNN).</p>
+<p>A naive algorithm to solve NN is to compute the distance <span class="math notranslate nohighlight">\(\mathcal{D}(x, q)\)</span> for every x in <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> and find the element with minimum <span class="math notranslate nohighlight">\(\mathcal{D}(q,x)\)</span>. This is <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> in computation of distance. One can also check that this is the lower bound on complexity as we have to compare the distances for all of the objects in <span class="math notranslate nohighlight">\(\mathcal{C}\)</span>. Another setup of the problem is that we have the set <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> fixed and we plan to make a lot of queries, <span class="math notranslate nohighlight">\(\{q_i\}_{i=1}^t\)</span>. In such a setup, it is wise to construct a datastructure which can help us answer these queries efficiently. When the objects are actually vectors in <span class="math notranslate nohighlight">\(R^d\)</span> for some d, some space paritioning methods are used to create an efficient datastructure. <span style="color: red;">[cite algorithms] </span>. However, these datastructures suffer from the curse of dimensionality <span style="color: red;">[explain] </span>. and hence do not scale to higher dimensions. In order to find an efficient solution to the problem, we once again relax the problem in a way that it’s practical utility is maintained. This problem is known as the Approximate Near Neighbour(ANN) search</p>
+</div>
+<div class="section" id="approximate-near-neighbour-search-ann">
+<h2>Approximate Near Neighbour Search (ANN)<a class="headerlink" href="#approximate-near-neighbour-search-ann" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>Given a collection of n objects, say <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> and a query object <span class="math notranslate nohighlight">\(q\)</span>, a distance metric <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> ( or similarity metric <span class="math notranslate nohighlight">\(\mathcal{S}\)</span>) and a error tolerance <span class="math notranslate nohighlight">\(\epsilon\)</span>, the approximate near neighbour problem is to find the element in set <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> that is within a distance of <span class="math notranslate nohighlight">\((1+\epsilon)\mathcal{D}(q^*, q)\)</span> where <span class="math notranslate nohighlight">\(q^*\)</span> is the closest element</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{aligned}
-\mbox{mean} la_{tex} \\ \\
-math blocks
-\end{aligned}
-\end{split}\]</div>
-<p>But make sure you $Escape $your $dollar signs $you want to keep!</p>
+\[ q^+ \quad s.t. \quad \mathcal{D}(q^+,q) &lt; (1 + \epsilon) \mathcal{D}(q^*,q) \quad \textrm{or} \quad \mathcal{S}(q^+, q) &gt; (1-\epsilon) \mathcal{S}(q^*,q) \]</div>
+<hr class="docutils" />
+<p>In an adaptation of the problem, we might be interested in all the points that lie within a distance from the query point q or the points which have a similarity greator than a particular threshold.</p>
+<blockquote>
+<div><p>Note: In all the following material we will stick to the Similarity notion for near neighbour discussion. However, it should be noted that the two notions are inter-changeable.</p>
+</div></blockquote>
 </div>
-<div class="section" id="myst-markdown">
-<h2>MyST markdown<a class="headerlink" href="#myst-markdown" title="Permalink to this headline">¶</a></h2>
-<p>MyST markdown works in Jupyter Notebooks as well. For more information about MyST markdown, check
-out <a class="reference external" href="https://jupyterbook.org/content/myst.html">the MyST guide in Jupyter Book</a>,
-or see <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">the MyST markdown documentation</a>.</p>
-</div>
-<div class="section" id="code-blocks-and-outputs">
-<h2>Code blocks and outputs<a class="headerlink" href="#code-blocks-and-outputs" title="Permalink to this headline">¶</a></h2>
-<p>Jupyter Book will also embed your code blocks and output in your book.
-For example, here’s some sample Matplotlib code:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">rcParams</span><span class="p">,</span> <span class="n">cycler</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fixing random state for reproducibility</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">19680801</span><span class="p">)</span>
-
-<span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)))</span>
-
-
-<span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="kn">import</span> <span class="n">Line2D</span>
-<span class="n">custom_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">.5</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)]</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">custom_lines</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Cold&#39;</span><span class="p">,</span> <span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="s1">&#39;Hot&#39;</span><span class="p">]);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/notebooks_2_0.png" src="../_images/notebooks_2_0.png" />
-</div>
-</div>
-<p>There is a lot more that you can do with outputs (such as including interactive outputs)
-with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
+<div class="section" id="lsh-introduction">
+<h2>LSH - Introduction<a class="headerlink" href="#lsh-introduction" title="Permalink to this headline">¶</a></h2>
+<p>Let us reflect on how we solved efficient search with hash-tables. Using a hash function, we can reduce the search space for a particular query by orders of magnitude. Specifically, we only have to compare the query against the elements that have same hash values and are stored together in memory. The hash function we used there was a random hash function as we had two conditions : (1) Each element x is consistently mapped to a location (which is a given since the mapping is a function) (2) Distinct elements collide as less as possible (as you cannot avoid collisions completely.)</p>
+<p>A key issue with using the same hash function as above for this problem is that the hash function will not distinguish between two elements y and z on the basis of how similar they are to x. All that matters for this hash function is whether two elements are exacty same or not. If we were to design hash function such that similar elements match together, then we can hope to efficiently solve the problem.</p>
 </div>
 </div>
 
@@ -353,6 +341,8 @@ with your book. For more information about this, see <a class="reference externa
         
         <div class='prev-next-bottom'>
             
+    <a class='left-prev' id="prev-link" href="intro_hashing.html" title="previous page"><strong>Ideas behind many probabilistic data structures</strong></a>
+    <a class='right-next' id="next-link" href="randomized_routing.html" title="next page"><strong>Randomized Routing</strong></a>
 
         </div>
         
