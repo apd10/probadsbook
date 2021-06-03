@@ -5,4 +5,5 @@
 - file: content
   sections:
     - file: notebooks/intro_hashing
+    - file: notebooks/lsh
     - file: notebooks/randomized_routing
